@@ -137,7 +137,7 @@ exports.DeletePlan = function (req, res) {
        res.status(500).json({
 			status: 'Error',
 			code: '500',
-			message: 'Server Error.',
+			message: 'Error on the error server.',
 		});
     }
 };
