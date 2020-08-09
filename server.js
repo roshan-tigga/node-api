@@ -11,12 +11,16 @@ const db = require('./db');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
+route.get('/', (req, res) => res.send('testing'));
+
 app.use('/api', route);
 
+
+
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+/* app.use(function(req, res, next) {
   next(createError(404));
-});
+}); */
 
 const PORT = process.env.PORT || 8080;
 
