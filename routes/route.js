@@ -118,69 +118,88 @@ const TrainerValidation = [
         check("experience","Please enter a experience.").not().isEmpty(),
         check("photo","Please enter a photo.").not().isEmpty()
     ]
+
+const RegisterValidation = [
+	check("email", "Please enter a valid email").isEmail().exists(),
+	check("password", "Please enter a valid password").isLength({ min: 6 }).withMessage('must be at least 6 chars long'),
+	check("phone", "Please enter a phone.").isNumeric().withMessage('Please enter a valid phone').isLength({min: 10, max: 15}).withMessage('must be at least 10 digit.')
+]
+
+const LoginValidation = [
+        check("email", "Please enter a valid email").isEmail(),
+        check("password", "Please enter a valid password").isLength({
+            min: 6
+        })
+    ]
+
 /*----------------Validation End--------------*/
 
 
 /*----------------Route Start--------------*/
 
-router.post('/add-gym',GymValidation,VerifyToken,GymController.AddGym);
-router.get('/gym/:id',VerifyToken,GymController.GetGym);
+router.post('/gym',GymValidation,VerifyToken,GymController.AddGym);
+router.get('/gym',VerifyToken,GymController.GetAllGym);
+router.get('/gym/:id',VerifyToken,GymController.GetGymById);
 router.put('/gym',VerifyToken,GymController.EditGym);
 router.delete('/gym',VerifyToken,GymController.DeleteGym);
 
-router.post('/add-member',MemberValidation,VerifyToken,MemberController.AddMember);
-router.get('/member/:id',VerifyToken,MemberController.GetMember);  
+router.post('/member',MemberValidation,VerifyToken,MemberController.AddMember);
+router.get('/member',VerifyToken,MemberController.GetAllMember);  
+router.get('/member/:id',VerifyToken,MemberController.GetMemberById);  
 router.put('/member',VerifyToken,MemberController.EditMember);
 router.delete('/member',VerifyToken,MemberController.DeleteMember);
 
-router.post('/add-plan',VerifyToken,PlanController.AddPlan);
-router.get('/plan/:id',VerifyToken,PlanController.GetPlan);
+router.post('/plan',VerifyToken,PlanController.AddPlan);
+router.get('/plan',VerifyToken,PlanController.GetAllPlan);
+router.get('/plan/:id',VerifyToken,PlanController.GetPlanById);
 router.put('/plan/:id',VerifyToken,PlanController.EditPlan);
 router.delete('/plan/:id',VerifyToken,PlanController.DeletePlan);
 
-router.post('/add-tax',TaxValidation,VerifyToken,TaxController.AddTax);
-router.get('/tax/:id',VerifyToken,TaxController.GetTax);
+router.post('/tax',TaxValidation,VerifyToken,TaxController.AddTax);
+router.get('/tax',VerifyToken,TaxController.GetAllTax);
+router.get('/tax/:id',VerifyToken,TaxController.GetTaxById);
 router.put('/tax',VerifyToken,TaxController.EditTax);
 router.delete('/tax',VerifyToken,TaxController.DeleteTax);
 
 router.post('/enrollment-fee',EnrollmentFeeValidation,VerifyToken,EnrollmentFeeController.AddEnrollmentFee);
-router.get('/enrollment-fee/:id',VerifyToken,EnrollmentFeeController.GetEnrollmentFee);
+router.get('/enrollment',VerifyToken,EnrollmentFeeController.GetAllEnrollmentFee);
+router.get('/enrollment-fee/:id',VerifyToken,EnrollmentFeeController.GetEnrollmentFeeById);
 router.put('/enrollment-fee',VerifyToken,EnrollmentFeeController.EditEnrollmentFee);
 router.delete('/enrollment-fee',VerifyToken,EnrollmentFeeController.DeleteEnrollmentFee);
 
 router.post('/complaint',ComplaintValidation,VerifyToken,ComplaintController.AddComplaint);
-router.get('/complaint/:id',VerifyToken,ComplaintController.GetComplaint);
+router.get('/complaint',VerifyToken,ComplaintController.GetAllComplaint);
+router.get('/complaint/:id',VerifyToken,ComplaintController.GetComplaintById);
 router.put('/complaint',VerifyToken,ComplaintController.EditComplaint);
 router.delete('/complaint',VerifyToken,ComplaintController.DeleteComplaint);
 
 
 router.post('/batch',BatchValidation,VerifyToken,BatchController.AddBatch);
-router.get('/batch/:id',VerifyToken,BatchController.GetBatch);
+router.get('/batch',VerifyToken,BatchController.GetAllBatch);
+router.get('/batch/:id',VerifyToken,BatchController.GetBatchById);
 router.put('/batch',VerifyToken,BatchController.EditBatch);
 router.delete('/batch',VerifyToken,BatchController.DeleteBatch);
 
 
-router.post('/add-trainer',TrainerValidation,VerifyToken,TrainerController.AddTrainer);
-router.get('/trainer/:id',VerifyToken,TrainerController.GetTrainer);
+router.post('/trainer',TrainerValidation,VerifyToken,TrainerController.AddTrainer);
+router.get('/trainer',VerifyToken,TrainerController.GetAllTrainer);
+router.get('/trainer/:id',VerifyToken,TrainerController.GetTrainerById);
 router.put('/trainer',VerifyToken,TrainerController.EditTrainer);
 router.delete('/trainer',VerifyToken,TrainerController.DeleteTrainer);
 
-router.post('/register',[
-        check("email", "Please enter a valid email").isEmail().exists(),
-        check("password", "Please enter a valid password").isLength({ min: 6 }).withMessage('must be at least 6 chars long'),
-		check("phone", "Please enter a phone.").isNumeric().withMessage('Please enter a valid phone').isLength({min: 10, max: 15}).withMessage('must be at least 10 digit.')
-    ], UserController.register);
-router.post('/login',[
-        check("email", "Please enter a valid email").isEmail(),
-        check("password", "Please enter a valid password").isLength({
-            min: 6
-        })
-    ], LoginController.login);
+router.post('/register',RegisterValidation, UserController.register);
+router.get('/user',VerifyToken,UserController.GetAllUser);
+router.get('/user/:id',VerifyToken,UserController.GetUserById);
+router.put('/user',VerifyToken,UserController.EditUser);
+router.delete('/user',VerifyToken,UserController.DeleteUser);	
+	
+router.post('/login',LoginValidation, LoginController.login);
 
-
-router.post('/add-gender',[
-	check("name", "Please enter a name").not().isEmpty()
-],VerifyToken,GenderController.AddGender);
+router.post('/gender',[ check("name", "Please enter a name").not().isEmpty()],VerifyToken,GenderController.AddGender);
+/* router.get('/gender',VerifyToken,GenderController.GetAllGender);
+router.get('/gender/:id',VerifyToken,GenderController.GetGenderById);
+router.put('/gender',VerifyToken,GenderController.EditGender);
+router.delete('/gender',VerifyToken,GenderController.DeleteGender); */
 
 module.exports = router;
 

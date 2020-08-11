@@ -93,12 +93,44 @@ exports.AddMember = function (req, res) {
        res.status(500).json({
 			status: 'Error',
 			code: '500',
-			message: 'Server Error.',
+			message: 'Error on the server.',
 		});
     }
 };
 
-exports.GetMember = function (req, res) {
+
+exports.GetAllMember = function (req, res) {
+	try {
+		Member.find()
+		.populate('gender_id',['name'])
+		.populate('plan_details.plan_id',['plan_type_id','plan_name','amount','duration','description'])
+		.populate('plan_details.enrollment_fee_id',['fee'])
+		.populate('plan_details.batch_id',['name','limit','open_time','close_time'])
+		.exec(function (err, data) {			
+			 if (err){
+				res.status(400).json({
+					status: 'Error',
+					code: '400',
+					message: 'Error in fetching member details.',
+				});
+			}
+			res.status(200).json({
+				status: 'Success',
+				code: '200',
+				data:data  
+			});    
+		});  
+	}
+	catch (err) {
+       res.status(500).json({
+			status: 'Error',
+			code: '500',
+			message: 'Error on the server.',
+		});
+    }
+}
+
+exports.GetMemberById = function (req, res) {
 	try {
 		Member.findById(req.params.id)
 		.populate('gender_id',['name'])
@@ -124,7 +156,7 @@ exports.GetMember = function (req, res) {
        res.status(500).json({
 			status: 'Error',
 			code: '500',
-			message: 'Server Error.',
+			message: 'Error on the server.',
 		});
     }
 };
@@ -190,7 +222,7 @@ exports.EditMember = function (req, res) {
        res.status(500).json({
 			status: 'Error',
 			code: '500',
-			message: 'Server Error.',
+			message: 'Error on the server.',
 		});
     }
 };

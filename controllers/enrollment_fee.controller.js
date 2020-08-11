@@ -44,13 +44,39 @@ exports.AddEnrollmentFee = function (req, res) {
        res.status(500).json({
 			status: 'Error',
 			code: '500',
-			message: 'Server Error.',
+			message: 'Error on the error server.',
 		});
     }
 };
 
 
-exports.GetEnrollmentFee = function (req, res) {
+exports.GetAllEnrollmentFee = function (req, res) {
+	try {
+		Enrollmentfee.find({}, (err, data) => {
+			 if (err){
+				res.status(400).json({
+					status: 'Error',
+					code: '400',
+					message: 'Error in fetching enrollment fee details.',
+				});
+			}
+			res.status(200).json({
+				status: 'Success',
+				code: '200',
+				data:data  
+			});    
+		}); 
+	}
+	catch (err) {
+       res.status(500).json({
+			status: 'Error',
+			code: '500',
+			message: 'Error on the error server.',
+		});
+    }
+};
+
+exports.GetEnrollmentFeeById = function (req, res) {
 	try {
 		Enrollmentfee.findById(req.params.id, (err, data) => {
 			 if (err){
@@ -71,10 +97,12 @@ exports.GetEnrollmentFee = function (req, res) {
        res.status(500).json({
 			status: 'Error',
 			code: '500',
-			message: 'Server Error.',
+			message: 'Error on the error server.',
 		});
     }
 };
+
+
 
 exports.EditEnrollmentFee = function (req, res) {
 	try {
@@ -101,7 +129,7 @@ exports.EditEnrollmentFee = function (req, res) {
        res.status(500).json({
 			status: 'Error',
 			code: '500',
-			message: 'Server Error.',
+			message: 'Error on the error server.',
 		});
     }
 };

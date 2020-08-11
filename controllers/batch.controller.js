@@ -49,13 +49,39 @@ exports.AddBatch = function (req, res) {
        res.status(500).json({
 			status: 'Error',
 			code: '500',
-			message: 'Server Error.',
+			message: 'Error on the server.',
 		});
     }
 };
 
 
-exports.GetBatch = function (req, res) {
+exports.GetAllBatch = function (req, res) {
+	try {
+		Batch.find({}, (err, data) => {
+			 if (err){
+				res.status(400).json({
+					status: 'Error',
+					code: '400',
+					message: 'Error in fetching batch details.'
+				});
+			}
+			res.status(200).json({
+				status: 'Success',
+				code: '200',
+				data:data  
+			});    
+		}); 
+	}
+	catch (err) {
+       res.status(500).json({
+			status: 'Error',
+			code: '500',
+			message: 'Error on the server.',
+		});
+    }
+};
+
+exports.GetBatchById = function (req, res) {
 	try {
 		Batch.findById(req.params.id, (err, data) => {
 			 if (err){
@@ -76,7 +102,7 @@ exports.GetBatch = function (req, res) {
        res.status(500).json({
 			status: 'Error',
 			code: '500',
-			message: 'Server Error.',
+			message: 'Error on the server.',
 		});
     }
 };
@@ -109,7 +135,7 @@ exports.EditBatch = function (req, res) {
        res.status(500).json({
 			status: 'Error',
 			code: '500',
-			message: 'Server Error.',
+			message: 'Error on the server.',
 		});
     }
 };

@@ -53,9 +53,33 @@ exports.AddTax = function (req, res) {
     }
 };
 
+exports.GetAllTax = function (req, res) {
+	try {
+		Tax.find({}, (err, data) => {
+			 if (err){
+				res.status(400).json({
+					status: 'Error',
+					code: '400',
+					message: 'Error in fetching tax details.',
+				});
+			}
+			res.status(200).json({
+				status: 'Success',
+				code: '200',
+				data:data  
+			});    
+		});
+	}
+	catch (err) {
+       res.status(500).json({
+			status: 'Error',
+			code: '500',
+			message: 'Error on the server.',
+		});
+    }
+}
 
-
-exports.GetTax = function (req, res) {
+exports.GetTaxById = function (req, res) {
 	try {
 		Tax.findById(req.params.id, (err, data) => {
 			 if (err){

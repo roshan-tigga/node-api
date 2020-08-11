@@ -47,12 +47,39 @@ exports.AddPlan = function (req, res) {
        res.status(500).json({
 			status: 'Error',
 			code: '500',
-			message: 'Server Error.',
+			message: 'Error on the server.',
 		});
     }
 };
 
-exports.GetPlan = function (req, res) {
+
+exports.GetAllPlan = function (req, res) {
+	try {
+		Plan.find({}, (err, data) => {
+			 if (err){
+				res.status(400).json({
+					status: 'Error',
+					code: '400',
+					message: 'Error in fetching plan details.'
+				});
+			}
+			res.status(200).json({
+				status: 'Success',
+				code: '200',
+				data:data  
+			});    
+		}); 
+	}
+	catch (err) {
+       res.status(500).json({
+			status: 'Error',
+			code: '500',
+			message: 'Error on the server.',
+		});
+    }
+};
+
+exports.GetPlanById = function (req, res) {
 	try {
 		Plan.findById(req.params.id, (err, data) => {
 			 if (err){
@@ -73,7 +100,7 @@ exports.GetPlan = function (req, res) {
        res.status(500).json({
 			status: 'Error',
 			code: '500',
-			message: 'Server Error.',
+			message: 'Error on the server.',
 		});
     }
 };
@@ -107,7 +134,7 @@ exports.EditPlan = function (req, res) {
        res.status(500).json({
 			status: 'Error',
 			code: '500',
-			message: 'Server Error.',
+			message: 'Error on the server.',
 		});
     }
 };

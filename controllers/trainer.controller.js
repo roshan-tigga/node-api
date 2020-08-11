@@ -52,14 +52,40 @@ exports.AddTrainer = function (req, res) {
        res.status(500).json({
 			status: 'Error',
 			code: '500',
-			message: 'Server Error.',
+			message: 'Error on the error server.',
 		});
     }
 };
 
+exports.GetAllTrainer = function (req, res) {
+	try {
+		Trainer.find()
+		.populate('gender_id',['name'])
+		.exec(function (err, data) {
+			 if (err){
+				res.status(400).json({
+					status: 'Error',
+					code: '400',
+					message: 'Error in fetching member details.',
+				});
+			}
+			res.status(200).json({
+				status: 'Success',
+				code: '200',
+				data:data  
+			});    
+		}); 
+	}
+	catch (err) {
+       res.status(500).json({
+			status: 'Error',
+			code: '500',
+			message: 'Error on the error server.',
+		});
+    }
+};
 
-
-exports.GetTrainer = function (req, res) {
+exports.GetTrainerById = function (req, res) {
 	try {
 		Trainer.findById(req.params.id)
 		.populate('gender_id',['name'])
@@ -82,7 +108,7 @@ exports.GetTrainer = function (req, res) {
        res.status(500).json({
 			status: 'Error',
 			code: '500',
-			message: 'Server Error.',
+			message: 'Error on the error server.',
 		});
     }
 };
@@ -119,7 +145,7 @@ exports.EditTrainer = function (req, res) {
        res.status(500).json({
 			status: 'Error',
 			code: '500',
-			message: 'Server Error.',
+			message: 'Error on the error server.',
 		});
     }
 };

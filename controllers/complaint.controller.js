@@ -47,13 +47,38 @@ exports.AddComplaint = function (req, res) {
        res.status(500).json({
 			status: 'Error',
 			code: '500',
-			message: 'Server Error.',
+			message: 'Error on the error server.',
 		});
     }
 };
 
+exports.GetAllComplaint = function (req, res) {
+	try {
+		Complaint.find({}, (err, data) => {
+			 if (err){
+				res.status(400).json({
+					status: 'Error',
+					code: '400',
+					message: 'Error in fetching complaint details.'
+				});
+			}
+			res.status(200).json({
+				status: 'Success',
+				code: '200',
+				data:data  
+			});    
+		}); 
+	}
+	catch (err) {
+       res.status(500).json({
+			status: 'Error',
+			code: '500',
+			message: 'Error on the error server.',
+		});
+    }
+};
 
-exports.GetComplaint = function (req, res) {
+exports.GetComplaintById = function (req, res) {
 	try {
 		Complaint.findById(req.params.id, (err, data) => {
 			 if (err){
@@ -74,7 +99,7 @@ exports.GetComplaint = function (req, res) {
        res.status(500).json({
 			status: 'Error',
 			code: '500',
-			message: 'Server Error.',
+			message: 'Error on the error server.',
 		});
     }
 };
@@ -105,7 +130,7 @@ exports.EditComplaint = function (req, res) {
        res.status(500).json({
 			status: 'Error',
 			code: '500',
-			message: 'Server Error.',
+			message: 'Error on the error server.',
 		});
     }
 };

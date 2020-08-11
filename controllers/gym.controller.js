@@ -60,13 +60,38 @@ exports.AddGym = function (req, res) {
        res.status(500).json({
 			status: 'Error',
 			code: '500',
-			message: 'Server Error.',
+			message: 'Error on the server.',
 		});
     }
 };
 
+exports.GetAllGym = function (req, res) {
+	try {
+		Gym.find({}, (err, data) => {
+			 if (err){
+				res.status(400).json({
+					status: 'Error',
+					code: '400',
+					message: 'Error in fetching gym details.',
+				});
+			}
+			res.status(200).json({
+				status: 'Success',
+				code: '200',
+				data:data  
+			});    
+		}); 
+	}
+	catch (err) {
+       res.status(500).json({
+			status: 'Error',
+			code: '500',
+			message: 'Error on the server.',
+		});
+    }
+};
 
-exports.GetGym = function (req, res) {
+exports.GetGymById = function (req, res) {
 	try {
 		Gym.findById(req.params.id, (err, data) => {
 			 if (err){
@@ -87,7 +112,7 @@ exports.GetGym = function (req, res) {
        res.status(500).json({
 			status: 'Error',
 			code: '500',
-			message: 'Server Error.',
+			message: 'Error on the server.',
 		});
     }
 };
@@ -130,7 +155,7 @@ exports.EditGym = function (req, res) {
        res.status(500).json({
 			status: 'Error',
 			code: '500',
-			message: 'Server Error.',
+			message: 'Error on the server.',
 		});
     }
 };
