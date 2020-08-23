@@ -1,8 +1,9 @@
-var createError = require('http-errors');
+const createError = require('http-errors');
 const express = require('express');
 const bodyParser = require('body-parser');
 const route = require('./routes/route');  
 const dotenv = require('dotenv').config();
+const cors = require('cors');
 
 const app = express();
 
@@ -10,6 +11,7 @@ const db = require('./db');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(cors());
 
 route.get('/', (req, res) => res.send('testing'));
 

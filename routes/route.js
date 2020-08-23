@@ -120,6 +120,7 @@ const TrainerValidation = [
     ]
 
 const RegisterValidation = [
+    check("name", "Please enter a name.").not().isEmpty(),
 	check("email", "Please enter a valid email").isEmail().exists(),
 	check("password", "Please enter a valid password").isLength({ min: 6 }).withMessage('must be at least 6 chars long'),
 	check("phone", "Please enter a phone.").isNumeric().withMessage('Please enter a valid phone').isLength({min: 10, max: 15}).withMessage('must be at least 10 digit.')
